@@ -1,10 +1,12 @@
 package com.mcsv.user.user_service.controllers;
 
 import com.mcsv.user.user_service.entity.UserEntity;
+import com.mcsv.user.user_service.response.UserDtoRequest;
+import com.mcsv.user.user_service.response.UserDtoResponse;
 import com.mcsv.user.user_service.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,9 +21,11 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserEntity> saveUser(@RequestBody UserEntity userRequest){
-        UserEntity user = userService.saveUser(userRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    public ResponseEntity<UserDtoResponse> saveUser(@Valid @RequestBody UserDtoRequest userDtoRequest){
+
+        UserDtoResponse userDtoResponse = userService.saveUser(userDtoRequest);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDtoResponse);
     }
 
     @GetMapping("/userId")
