@@ -28,7 +28,7 @@ It provides basic CRUD functionality and ensures security constraints such as **
 - **Spring Boot 3+**
 - **Spring Data JPA**
 - **Hibernate Validator**
-- **PostgreSQL** (or the DB you’re using)
+- **MySQL**
 - **Maven**
 
 ---
