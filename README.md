@@ -1,30 +1,30 @@
-# Hotel Service 🏨
+# User Service 👤
 
-Microservice for hotel management as part of a hotel booking system.
+Microservice for user management as part of a hotel booking system.
 
 ---
 
 ## 📌 About
-This service is responsible for managing hotel data, including:
-- Hotel name
-- Location
+This service is responsible for managing user data, including:
+- User name
+- Email (with strict validation)
 - Description
-- Other related information
 
-It is designed as an independent microservice that integrates with other services such as **User Service**, **Rating Service**, and **Booking Service**.
+It provides basic CRUD functionality and ensures security constraints such as **unique email addresses**.
 
 ---
 
 ## ✨ Features
-- Create, read, update, and delete (CRUD) operations for hotels.
-- Validation with DTOs and Bean Validation annotations.
-- Structured response handling with DTOs.
-- Database persistence via Spring Data JPA.
+- Create, read, update, and delete (CRUD) operations for users.
+- DTO-based validation using Bean Validation (`@NotBlank`, `@Size`, `@Pattern` for strict email validation).
+- Unique constraint enforcement for email.
+- Mapper for DTO ↔ Entity conversion.
+- Structured error handling via a **GlobalExceptionHandler** that returns a unified `ApiResponse`.
 
 ---
 
 ## 🛠️ Tech Stack
-- **Java 21+**
+- **Java 17+**
 - **Spring Boot 3+**
 - **Spring Data JPA**
 - **Hibernate Validator**
@@ -34,19 +34,17 @@ It is designed as an independent microservice that integrates with other service
 ---
 
 ## 🚀 Endpoints (basic)
-| Method | Endpoint         | Description          |
-|--------|-----------------|----------------------|
-| POST   | `/hotels`       | Create a new hotel   |
-| GET    | `/hotels/{id}`  | Get hotel by ID      |
-| GET    | `/hotels`       | Get all hotels       |
-| PUT    | `/hotels/{id}`  | Update hotel details |
-| DELETE | `/hotels/{id}`  | Delete a hotel       |
+| Method | Endpoint        | Description          |
+|--------|----------------|----------------------|
+| POST   | `/users`       | Create a new user    |
+| GET    | `/users/{id}`  | Get user by ID       |
+| GET    | `/users`       | Get all users        |
+| PUT    | `/users/{id}`  | Update user details  |
+| DELETE | `/users/{id}`  | Delete a user        |
 
 ---
 
 ## ⚡ How to Run
 1. Clone the repository  
    ```bash
-   git clone https://github.com/gusmunoz1221/hotel-service.git
-   ```bash
-   git clone https://github.com/your-username/hotel-service.git
+   git clone https://github.com/gusmunoz1221/user-service.git
