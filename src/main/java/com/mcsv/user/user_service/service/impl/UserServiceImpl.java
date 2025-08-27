@@ -34,12 +34,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getUser(String userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Usuario con id " + userId + " no encontrado"));
+    public UserDtoResponse getUser(String userId) {
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Usuario con id " + userId + " no encontrado"));
+        return userMapper.userEntityToUserDto(user);
     }
 
     @Override
-    public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDtoResponse> getAllUsers() {
+
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::userEntityToUserDto)
+                .toList();
     }
 }

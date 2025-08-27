@@ -29,12 +29,12 @@ public class UserController {
     }
 
     @GetMapping("/userId")
-    public ResponseEntity<UserEntity> getUser(@PathVariable String userId){
+    public ResponseEntity<UserDtoResponse> getUser(@PathVariable String userId){
         return ResponseEntity.ok(userService.getUser(userId));
     }
 
     @GetMapping
-    public ResponseEntity<List<UserEntity>> getAllUsers(){
+    public ResponseEntity<List<UserDtoResponse>> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());
     }
 

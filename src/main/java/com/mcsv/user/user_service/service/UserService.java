@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface UserService {
     UserDtoResponse saveUser(UserDtoRequest user);
-    UserEntity getUser(String userId);
-    List<UserEntity> getAllUsers();
+    UserDtoResponse getUser(String userId);
+    List<UserDtoResponse> getAllUsers();
 }
