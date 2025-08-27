@@ -24,7 +24,7 @@ It provides basic CRUD functionality and ensures security constraints such as **
 ---
 
 ## 🛠️ Tech Stack
-- **Java 17+**
+- **Java 21+**
 - **Spring Boot 3+**
 - **Spring Data JPA**
 - **Hibernate Validator**
