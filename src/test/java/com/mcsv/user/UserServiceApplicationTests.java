@@ -1,4 +1,4 @@
-package com.mcsv.user.user_service;
+package com.mcsv.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

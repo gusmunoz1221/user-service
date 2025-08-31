@@ -1,6 +1,6 @@
-package com.mcsv.user.user_service.exceptions;
+package com.mcsv.user.exceptions;
 
-import com.mcsv.user.user_service.response.ApiResponse;
+import com.mcsv.user.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

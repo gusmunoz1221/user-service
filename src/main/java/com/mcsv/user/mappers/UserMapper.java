@@ -1,11 +1,12 @@
-package com.mcsv.user.user_service.mappers;
+package com.mcsv.user.mappers;
 
-import com.mcsv.user.user_service.entity.UserEntity;
-import com.mcsv.user.user_service.response.UserDtoRequest;
-import com.mcsv.user.user_service.response.UserDtoResponse;
+import com.mcsv.user.entities.Rating;
+import com.mcsv.user.entities.UserEntity;
+import com.mcsv.user.response.UserDtoRequest;
+import com.mcsv.user.response.UserDtoResponse;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.ArrayList;
 
 @Component
 public class UserMapper {
@@ -17,7 +18,7 @@ public class UserMapper {
                 .build();
     }
 
-    public UserDtoResponse userEntityToUserDto( UserEntity user){
+    public UserDtoResponse userEntityToUserDto(UserEntity user){
         return UserDtoResponse.builder()
                 .name(user.getName())
                 .email(user.getEmail())

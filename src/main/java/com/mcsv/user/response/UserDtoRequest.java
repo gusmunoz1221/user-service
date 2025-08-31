@@ -1,4 +1,4 @@
-package com.mcsv.user.user_service.response;
+package com.mcsv.user.response;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

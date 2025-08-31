@@ -1,4 +1,4 @@
-package com.mcsv.user.user_service.exceptions;
+package com.mcsv.user.exceptions;
 
 public class EmailAlreadyExistsException extends RuntimeException {
     public EmailAlreadyExistsException(String message) {

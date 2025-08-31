@@ -1,4 +1,4 @@
-package com.mcsv.user.user_service.response;
+package com.mcsv.user.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

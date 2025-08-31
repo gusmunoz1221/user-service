@@ -1,4 +1,4 @@
-package com.mcsv.user.user_service.exceptions;
+package com.mcsv.user.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException{
     public ResourceNotFoundException() {
