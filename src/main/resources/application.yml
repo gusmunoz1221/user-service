@@ -1,46 +1,30 @@
-##server:
-##port:8081
-
-##spring:
-## datasource:
-##  url: jdbc:mysql://localhost:3306/users
-##  username: user
-##  password: miBD
-##  driver: com.mysql.cj.jdbc.Driver
-##jpa:
-##  hibernate:
-##    ddl-auto: update
-##  show-sql: true
-##  properties:
-##    hibernate:
-##      dialect: org.hibernate.dialect.MySQL8Dialect
-#
-
 server:
   port: 8081
-
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/users
     username: user
     password: miBD
-    driver: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
-      show-sql: true
+    show-sql: true
     properties:
       hibernate:
-      #  dialect: org.hibernate.dialect.MySQL8Dialect=com.mysql.cj.jdbc.Driver
-
+        dialect: org.hibernate.dialect.MySQL8Dialect
   application:
     name: USER-SERVICE
+  config:
+    import: configserver:http://localhost:8085
+  profiles:
+    active: prod
+#eureka: lo hacemos desde el config
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#     defaultZone: http://localhost:8761/eureka
 
-eureka:
-  instance:
-    prefer-ip-address: true #muestra las ip de los servicios en vez de los nombres
-  client:
-    fetch-registry: true #registra el servidor cliente
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka #apunta al mismo host de aureka, 8761 es el port por defecto de aureka

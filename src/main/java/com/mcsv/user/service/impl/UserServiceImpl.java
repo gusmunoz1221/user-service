@@ -5,6 +5,7 @@ import com.mcsv.user.entities.Rating;
 import com.mcsv.user.entities.UserEntity;
 import com.mcsv.user.exceptions.EmailAlreadyExistsException;
 import com.mcsv.user.exceptions.ResourceNotFoundException;
+import com.mcsv.user.external.service.HotelService;
 import com.mcsv.user.mappers.UserMapper;
 import com.mcsv.user.repository.UserRepository;
 import com.mcsv.user.response.UserDtoRequest;
@@ -28,11 +29,13 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RestTemplate restTemplate;
+    private final HotelService hotelService;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, RestTemplate restTemplate) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, RestTemplate restTemplate, HotelService hotelService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.restTemplate = restTemplate;
+        this.hotelService = hotelService;
     }
 
     @Override
@@ -51,17 +54,30 @@ public class UserServiceImpl implements UserService {
     public UserDtoResponse getUser(String userId) {
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Usuario con id " + userId + " no encontrado"));
 
-        Rating[] ratingByUser = restTemplate.getForObject("http://localhost:8083/ratings/users/"+user.getId(),Rating[].class);
+
+        //Llamo al mcsv RATING-SERVICE para traer todas las calificaciones del usuario.
+        //restTemplate.getForObject devuelve un array de Rating.
+        Rating[] ratingByUser = restTemplate.getForObject("http://RATING-SERVICE/ratings/users/"+user.getId(),Rating[].class);
+
+        //Convierto array Rating[] a List<Rating> para poder usar streams.
         List<Rating> ratings = Arrays.stream(ratingByUser).toList();
 
+
+        //Llamo al hotelService para obtener información del hotel correspondiente
+        //Asigno ese objeto Hotel a la calificación
+        //Devuelve la calificación con el hotel asociado.
+        //Finalmente devuelve una lista de calificaciones completas -> ratingList
         List<Rating> ratingList = ratings.stream().map( rating -> {
 
-            ResponseEntity<Hotel>  forEntity = restTemplate.getForEntity("http://localhost:8082/hotels/"+rating.getHotelId(), Hotel.class);
-            Hotel hotel = forEntity.getBody();
+       // en vez de usar restTemplate uso @FeignClient(name = "HOTEL-SERVICE")
+       // ResponseEntity<Hotel>  forEntity = restTemplate.getForEntity("http://HOTEL-SERVICE/hotels/"+rating.getHotelId(), Hotel.class);
+       //  Hotel hotel = forEntity.getBody();
+       // return rating;
 
+            Hotel hotel = hotelService.getHotel(rating.getHotelId());
             rating.setHotel(hotel);
-
             return rating;
+
         }).toList();
 
 

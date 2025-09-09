@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
         String message  = e.getMessage();
 
         ApiResponse response = ApiResponse.builder()
-                .message("Mensaje de error")
+                .message(message)
                 .success(false)
                 .status(HttpStatus.NOT_FOUND)
                 .build();
