@@ -1,6 +1,6 @@
 # User Service 👤
 
-Microservice for user management as part of a hotel booking system.
+Microservice for user management as part of a hotelDto booking system.
 
 ---
 

@@ -1,7 +1,7 @@
 package com.mcsv.user.service.impl;
 
-import com.mcsv.user.entities.Hotel;
-import com.mcsv.user.entities.Rating;
+import com.mcsv.user.response.HotelDto;
+import com.mcsv.user.response.RatingDto;
 import com.mcsv.user.entities.UserEntity;
 import com.mcsv.user.exceptions.EmailAlreadyExistsException;
 import com.mcsv.user.exceptions.ResourceNotFoundException;
@@ -12,13 +12,8 @@ import com.mcsv.user.response.UserDtoRequest;
 import com.mcsv.user.response.UserDtoResponse;
 import com.mcsv.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
-import org.slf4j.Logger;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,32 +52,25 @@ public class UserServiceImpl implements UserService {
 
         //Llamo al mcsv RATING-SERVICE para traer todas las calificaciones del usuario.
         //restTemplate.getForObject devuelve un array de Rating.
-        Rating[] ratingByUser = restTemplate.getForObject("http://RATING-SERVICE/ratings/users/"+user.getId(),Rating[].class);
+        RatingDto[] ratingDtoByUser = restTemplate.getForObject("http://RATING-SERVICE/ratings/users/"+user.getId(), RatingDto[].class);
 
         //Convierto array Rating[] a List<Rating> para poder usar streams.
-        List<Rating> ratings = Arrays.stream(ratingByUser).toList();
+        List<RatingDto> ratingDtos = Arrays.stream(ratingDtoByUser).toList();
 
 
         //Llamo al hotelService para obtener información del hotel correspondiente
         //Asigno ese objeto Hotel a la calificación
         //Devuelve la calificación con el hotel asociado.
         //Finalmente devuelve una lista de calificaciones completas -> ratingList
-        List<Rating> ratingList = ratings.stream().map( rating -> {
+        List<RatingDto> ratingDtoList = ratingDtos.stream().map(ratingDto -> {
 
-       // en vez de usar restTemplate uso @FeignClient(name = "HOTEL-SERVICE")
-       // ResponseEntity<Hotel>  forEntity = restTemplate.getForEntity("http://HOTEL-SERVICE/hotels/"+rating.getHotelId(), Hotel.class);
-       //  Hotel hotel = forEntity.getBody();
-       // return rating;
-
-            Hotel hotel = hotelService.getHotel(rating.getHotelId());
-            rating.setHotel(hotel);
-            return rating;
-
+            HotelDto hotelDto = hotelService.getHotel(ratingDto.getHotelId());
+            ratingDto.setHotelDto(hotelDto);
+            return ratingDto;
         }).toList();
 
-
         UserDtoResponse userDtoResponse = userMapper.userEntityToUserDto(user);
-        userDtoResponse.setRatings(ratingList);
+        userDtoResponse.setRatingDto(ratingDtoList);
 
         return userDtoResponse;
     }

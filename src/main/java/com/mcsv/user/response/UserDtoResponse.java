@@ -1,6 +1,5 @@
 package com.mcsv.user.response;
 
-import com.mcsv.user.entities.Rating;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +15,5 @@ import java.util.List;
 public class UserDtoResponse {
     private String name;
     private String email;
-    private List<Rating> ratings = new ArrayList<>();
+    private List<RatingDto> ratingDto = new ArrayList<>();
 }

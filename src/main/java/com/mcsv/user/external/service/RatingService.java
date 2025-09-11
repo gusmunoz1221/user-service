@@ -1,6 +1,6 @@
 package com.mcsv.user.external.service;
 
-import com.mcsv.user.entities.Rating;
+import com.mcsv.user.response.RatingDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 public interface RatingService {
 
     @PostMapping
-    public ResponseEntity<Rating> saveRating(Rating rating);
+    public ResponseEntity<RatingDto> saveRating(RatingDto ratingDto);
     @PutMapping("ratings/{ratingId}")
-    public ResponseEntity<Rating> updateRating(@PathVariable String ratingId);
+    public ResponseEntity<RatingDto> updateRating(@PathVariable String ratingId);
     @DeleteMapping("ratings/{ratingId}")
     public ResponseEntity<Void> deleteRating(@PathVariable String ratingId);
 }

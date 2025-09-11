@@ -28,3 +28,35 @@ spring:
 #    service-url:
 #     defaultZone: http://localhost:8761/eureka
 
+management:
+  health:
+    circuitBreakers:
+      enabled: true
+      endpoints:
+        web:
+          exposure:
+            include: health
+
+      endpoint:
+        health:
+          show-details: always
+
+resilience4j:
+  circuitBreaker:       # Sección principal de circuit breakers
+    instances:
+      ratingHotelBreaker:   # Nombre de la instancia de circuit breaker (lo usas en @CircuitBreaker(name="ratingHotelBreaker"))
+        registerHealthIndicator: true   # expone la salud del breaker en /actuator/health
+        eventConsumerBufferSize: 10     # cuántos eventos de circuito se guardan en memoria para análisis
+        failureRateThreshold: 50        # % de llamadas fallidas para abrir el circuito
+        minimumNumberOfCalls: 5         # número mínimo de llamadas que deben registrarse antes de evaluar el % de fallos
+        automaticTransitionFromOpenToHalfOpenEnabled: true # habilita pasar de OPEN a HALF-OPEN automáticamente tras el tiempo de espera
+        waitDurationInOpenState: 6s     # tiempo que el breaker permanece en estado OPEN antes de probar otra vez (pasa a HALF-OPEN)
+        permittedNumberOfCallsInHalfOpenState: 3 # cuántas llamadas de prueba se permiten en HALF-OPEN antes de decidir si se cierra o abre de nuevo
+        slidingWindowSize: 10           # tamaño de la ventana usada para calcular métricas (últimas 10 llamadas en este caso)
+        slidingWindowType: COUNT_BASED  # define si la ventana es por número de llamadas (COUNT_BASED) o por tiempo (TIME_BASED)
+
+      retry:
+        instances:
+          ratingHotelBreaker: # nombre de la instancia de retry
+            max-attempts: 3  # cantidad de intentos (1 intento inicial + 2 reintentos)
+            wait-duration: 4 s # tiempo de espera entre intentos
